@@ -1,9 +1,9 @@
 const express = require('express');
-
-const LogEntryController = require('../controllers/LogEntryController');
+const { getLogs, postLogs } = require('../controllers/LogEntryController');
 
 const router = express.Router();
 
-router.get('/logs', LogEntryController.getLogs);
+router.get('/logs', getLogs);
+router.post('/log', postLogs);
 
 module.exports = router;
