@@ -1,100 +1,48 @@
 const User = require('../models/User');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+const Book = require('../models/Book');
 
-exports.authenticateJWT = (req, res, next) => {
-  const authHeader = req.headers.authorization;
-
-  if (authHeader) {
-    const token = authHeader.split(' ')[1];
-
-    jwt.verify(token, 'birgaripsecret', (err, user) => {
-      if (err) {
-        return res.sendStatus(403);
-      }
-
-      req.user = user;
-      next();
-    });
-  } else {
-    res.status(401).json({
-      message: 'Unauthorized.'
-    });
-  }
-};
-
-exports.getDeneme = (req,res,next) => {
+exports.getUserBooks = async (req, res, next) => {
   try {
-    res.status(418).json({
-      teapot
-    })
+    const email = req.user.email;
+    const me = await User.findOne({ email: email }).populate('books');
+    res.json({ books: me.books });
   } catch (error) {
     next(error);
   }
 }
 
-exports.postSignup = (req, res, next) => {
+exports.addBookById = async (req, res, next) => {
   try {
-    const email = req.body.email;
-    const password = req.body.password;
-    User.findOne({ email: email })
-      .then(user => {
-        if (user) {
-          return res.status(422).json({
-            message: 'User exists'
-          });
-        }
-      });
-
-    return bcrypt.hash(password, 12)
-      .then(hashedPassword => {
-        const user = new User({
-          email: email,
-          password: hashedPassword
-        });
-        return user.save();
-      })
-      .then(result => {
-        res.status(201).json({
-          message: 'successfully created.†',
-          result: result
-        });
-      });
+    const id = req.params.bookId;
+    const book = await Book.findById(id);
+    const user = await User.findOne({ email: req.user.email });
+    user.books.push(book);
+    await user.save();
+    res.json({
+      message: 'Successful'
+    });
   } catch (error) {
     next(error);
   }
 }
 
-exports.postLogin = (req, res, next) => {
+exports.addBookByCreate = async (req, res, next) => {
   try {
-    const email = req.body.email;
-    const password = req.body.password;
-    User.findOne({ email: email })
-      .then(user => {
-        if (!user) {
-          return res.status(422).json({
-            message: 'User does not exists'
-          });
-        }
-        bcrypt.compare(password, user.password)
-          .then(matches => {
-            if (matches) {
-              const token = jwt.sign({ email: email, password: password }, 'birgaripsecret');
-              return res.json({
-                token
-              });
-            }
-            return res.status(422).json({
-              message: 'Invalid email or password'
-            });
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    const { name, summary, author, pages } = req.body;
+    const email = req.user.email;
+    const book = new Book({
+      name: name,
+      summary: summary,
+      author: author,
+      pages: pages
+    });
+    await book.save();
+    const user = await User.findOne({ email: email });
+    user.books.push(book);
+    await user.save();
+    res.status(201).json({
+      message: 'Successful'
+    });
   } catch (error) {
     next(error);
   }

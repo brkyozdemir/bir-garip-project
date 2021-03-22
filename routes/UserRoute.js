@@ -1,10 +1,14 @@
 const express = require('express');
-const { postSignup, postLogin, getDeneme } = require('../controllers/UserController');
+const {
+  getUserBooks,
+  addBookById,
+  addBookByCreate
+} = require('../controllers/UserController');
 
 const router = express.Router();
 
-router.post('/signup', postSignup);
-router.post('/login', postLogin);
-router.get('/teapot', getDeneme);
+router.get('/user/book/list', getUserBooks);
+router.post('/user/book/:bookId', addBookById);
+router.post('/user/book', addBookByCreate);
 
 module.exports = router;

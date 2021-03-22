@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const { Schema } = mongoose;
+const { Schema } = mongoose;
 
 const requiredString = {
   type: String,
@@ -9,9 +9,20 @@ const requiredString = {
 
 const userSchema = new Schema({
   email: requiredString,
-  password: requiredString,
+  password: {
+    type: String,
+    required: true,
+    select: false
+  },
+  username: requiredString,
   resetToken: String,
-  resetTokenExpiration: Date
-});
+  resetTokenExpiration: Date,
+  books: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'books'
+    }
+  ]
+}, { timestamps: true });
 
 module.exports = mongoose.model('users', userSchema);
