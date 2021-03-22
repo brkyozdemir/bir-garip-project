@@ -10,8 +10,7 @@ const requiredString = {
 const userSchema = new Schema({
   email: requiredString,
   password: {
-    type: String,
-    required: true,
+    ...requiredString,
     select: false
   },
   username: requiredString,

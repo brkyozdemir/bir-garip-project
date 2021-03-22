@@ -40,13 +40,15 @@ exports.postLogin = (req, res, next) => {
     const email = req.body.email;
     const username = req.body.username;
     const password = req.body.password;
-    User.findOne({ email: email })
+
+    User.findOne({ email: email }).select('password')
       .then(user => {
         if (!user) {
           return res.status(422).json({
             message: 'User does not exists'
           });
         }
+        
         bcrypt.compare(password, user.password)
           .then(matches => {
             if (matches) {
@@ -61,10 +63,12 @@ exports.postLogin = (req, res, next) => {
           })
           .catch(err => {
             console.log(err);
+            next();
           });
       })
       .catch(err => {
         console.log(err);
+        next();
       });
   } catch (error) {
     next(error);

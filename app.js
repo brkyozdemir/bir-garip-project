@@ -6,9 +6,7 @@ require('dotenv').config();
 const app = express();
 
 const AuthRoutes = require('./routes/AuthRoute');
-const LogRoutes = require('./routes/LogRoute');
-const UserRoutes = require('./routes/UserRoute');
-const BookRoutes = require('./routes/BookRoute');
+const APIRoutes = require('./routes/APIRoute');
 const { authenticateJWT } = require('./middlewares/auth');
 
 mongoose.connect('mongodb://localhost:27017/weirdo', {
@@ -25,10 +23,8 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/api', AuthRoutes)
-app.use('/api', authenticateJWT, UserRoutes);
-app.use('/api', authenticateJWT, LogRoutes);
-app.use('/api', authenticateJWT, BookRoutes);
+app.use('/auth', AuthRoutes)
+app.use('/api', authenticateJWT, APIRoutes);
 
 const port = 8000;
 app.listen(port, () => {
