@@ -4,8 +4,8 @@ const Book = require('../models/Book');
 exports.getUserBooks = async (req, res, next) => {
   try {
     const email = req.user.email;
-    const me = await User.findOne({ email: email }).populate('books');
-    res.json({ books: me.books });
+    const { books } = await User.findOne({ email: email }).populate('books');
+    res.json({ books: books });
   } catch (error) {
     next(error);
   }
