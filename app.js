@@ -9,7 +9,7 @@ const AuthRoutes = require('./routes/AuthRoute');
 const APIRoutes = require('./routes/APIRoute');
 const { authenticateJWT } = require('./middlewares/auth');
 
-mongoose.connect('mongodb://localhost:27017/weirdo', {
+mongoose.connect(process.env.MONGODB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
