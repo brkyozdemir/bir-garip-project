@@ -11,7 +11,7 @@ const BookController = {
   },
   getBookById: async (req, res, next) => {
     try {
-      const id = req.body.id;
+      const id = req.params.id;
       const book = await Book.findById(id);
       res.json({ book });
     } catch (error) {
@@ -29,7 +29,7 @@ const BookController = {
       });
       await book.save();
       res.status(201).json({
-        message: 'Successful'
+        book
       });
     } catch (error) {
       next(error);

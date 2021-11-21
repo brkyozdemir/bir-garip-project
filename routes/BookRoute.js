@@ -3,8 +3,8 @@ const { createBook, getBooks, getBookById } = require('../controllers/BookContro
 
 const router = express.Router();
 
-router.post('/book', createBook);
-router.get('/book', getBookById);
-router.get('/book/list', getBooks);
+router.post('/books', createBook);
+router.get('/books/:id', getBookById);
+router.get('/books/list', getBooks);
 
 module.exports = router;

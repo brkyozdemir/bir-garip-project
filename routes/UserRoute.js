@@ -7,8 +7,8 @@ const {
 
 const router = express.Router();
 
-router.get('/user/book/list', getUserBooks);
-router.post('/user/book/:bookId', addBookById);
-router.post('/user/book', addBookByCreate);
+router.get('/users/books/list', getUserBooks);
+router.post('/users/books/:bookId', addBookById);
+router.post('/users/books', addBookByCreate);
 
 module.exports = router;
