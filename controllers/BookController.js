@@ -6,6 +6,7 @@ const BookController = {
       const books = await Book.find();
       res.json({ books });
     } catch (error) {
+      res.status(400).json(error);
       next(error);
     }
   },
@@ -15,6 +16,7 @@ const BookController = {
       const book = await Book.findById(id);
       res.json({ book });
     } catch (error) {
+      res.status(400).json(error);
       next(error);
     }
   },
@@ -32,6 +34,7 @@ const BookController = {
         book
       });
     } catch (error) {
+      res.status(400).json(error);
       next(error);
     }
   }

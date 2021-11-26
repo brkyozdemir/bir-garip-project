@@ -7,6 +7,7 @@ exports.getUserBooks = async (req, res, next) => {
     const { books } = await User.findOne({ email: email }).populate('books');
     res.json({ books: books });
   } catch (error) {
+    res.status(400).json(error);
     next(error);
   }
 }

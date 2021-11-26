@@ -7,7 +7,7 @@ const {
 
 const router = express.Router();
 
-router.get('/users/books/list', getUserBooks);
+router.get('/users/books', getUserBooks);
 router.post('/users/books/:bookId', addBookById);
 router.post('/users/books', addBookByCreate);
 
