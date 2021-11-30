@@ -3,7 +3,7 @@ const {
   getUserBooks,
   addBookById,
   addBookByCreate
-} = require('../controllers/UserController');
+} = require('../users/controllers/UserController');
 
 const router = express.Router();
 

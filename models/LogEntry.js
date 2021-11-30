@@ -19,4 +19,13 @@ const logEntrySchema = new Schema({
   }
 }, { timestamps: true });
 
+logEntrySchema.methods.toJSON = function () {
+  let obj = this.toObject();
+
+  delete obj._id;
+  delete obj.__v;
+  delete obj.updatedAt;
+  return obj;
+}
+
 module.exports = mongoose.model('logentries', logEntrySchema);

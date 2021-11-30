@@ -3,7 +3,6 @@ const LogEntry = require('../models/LogEntry');
 exports.getLogs = async (req, res, next) => {
   try {
     const entries = await LogEntry.find();
-    console.log(req);
     res.json({ entries: entries });
   } catch (error) {
     next(error);

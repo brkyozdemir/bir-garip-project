@@ -1,5 +1,5 @@
 const User = require('../models/User');
-const Book = require('../models/Book');
+const Book = require('../../books/models/book');
 
 exports.getUserBooks = async (req, res, next) => {
   try {
