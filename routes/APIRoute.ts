@@ -1,6 +1,6 @@
 const LogRoutes = require('./LogRoute');
 const UserRoutes = require('./UserRoute');
-const BookRoutes = require('./BookRoute');
+import BookRoutes from '../books/routes/BookRoute';
 
 const express = require('express');
 const router = express.Router();

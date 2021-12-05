@@ -6,7 +6,7 @@ require('dotenv').config();
 
 const app = express();
 
-import AuthRoutes from './routes/AuthRoute';
+import AuthRoutes from './auth/routes/AuthRoute';
 const APIRoutes = require('./routes/APIRoute');
 const { authenticateJWT } = require('./middlewares/auth');
 

@@ -9,10 +9,7 @@ const requiredString = {
 
 const userSchema = new Schema({
   email: requiredString,
-  password: {
-    ...requiredString,
-    select: false
-  },
+  password: requiredString,
   username: requiredString,
   resetToken: String,
   resetTokenExpiration: Date,
