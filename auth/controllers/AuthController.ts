@@ -1,15 +1,17 @@
+import {NextFunction, Request, Response} from "express";
+
 const User = require('../../users/models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-exports.postSignup = (req, res, next) => {
+export const postSignup = (req: Request, res: Response, next: NextFunction) => {
   try {
     const email = req.body.email;
     const password = req.body.password;
     const username = req.body.username;
 
     User.findOne({email: email})
-      .then(user => {
+      .then((user: any) => {
         if (user) {
           return res.status(400).json({
             message: 'User exists'
@@ -18,7 +20,7 @@ exports.postSignup = (req, res, next) => {
       });
 
     return bcrypt.hash(password, 12)
-      .then(hashedPassword => {
+      .then((hashedPassword: any) => {
         const user = new User({
           email: email,
           username: username,
@@ -31,7 +33,7 @@ exports.postSignup = (req, res, next) => {
           message: 'Successfully created.†',
         });
       })
-      .catch(err => {
+      .catch((err: any) => {
         res.status(400).json(err)
       });
   } catch (error) {
@@ -39,13 +41,13 @@ exports.postSignup = (req, res, next) => {
   }
 }
 
-exports.postLogin = (req, res, next) => {
+export const postLogin = (req: Request, res: Response, next: NextFunction) => {
   try {
     const email = req.body.email;
     const password = req.body.password;
 
     User.findOne({email: email}).select('password')
-      .then(user => {
+      .then((user: any) => {
         if (!user) {
           return res.status(400).json({
             message: 'User does not exists'
@@ -53,7 +55,7 @@ exports.postLogin = (req, res, next) => {
         }
 
         bcrypt.compare(password, user.password)
-          .then(matches => {
+          .then((matches: any) => {
             if (matches) {
               const token = jwt.sign({email: email}, process.env.JWT_SECRET);
               return res.json({
@@ -64,12 +66,12 @@ exports.postLogin = (req, res, next) => {
               message: 'Invalid email or password'
             });
           })
-          .catch(err => {
+          .catch((err: any) => {
             console.log(err);
             next();
           });
       })
-      .catch(err => {
+      .catch((err: any) => {
         res.status(400).json(err)
         next(err);
       });

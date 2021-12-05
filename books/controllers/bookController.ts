@@ -1,7 +1,9 @@
+import {NextFunction, Request, Response} from "express";
+
 const Book = require('../models/book');
 
-const BookController = {
-  getBooks: async (req, res, next) => {
+export const BookController = {
+  getBooks: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const books = await Book.find();
       res.json({ books });
@@ -10,7 +12,7 @@ const BookController = {
       next(error);
     }
   },
-  getBookById: async (req, res, next) => {
+  getBookById: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const id = req.params.id;
       const book = await Book.findById(id);
@@ -20,7 +22,7 @@ const BookController = {
       next(error);
     }
   },
-  createBook: async (req, res, next) => {
+  createBook: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { name, summary, author, pages } = req.body;
       const book = new Book({
@@ -39,5 +41,3 @@ const BookController = {
     }
   }
 }
-
-module.exports = BookController;
