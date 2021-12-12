@@ -23,7 +23,6 @@ export class SingupRequest implements IRequest {
 
     try {
       SingupRequest.checkPassword(body.password, res);
-      // this.checkPassword(body.password, res)
       User.findOne({email: body.email})
         .then((user: any) => {
           if (user) {
