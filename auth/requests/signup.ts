@@ -1,5 +1,6 @@
 import {IRequest} from "../../core/interfaces/request";
 import {NextFunction, Request, Response} from "express";
+import {IUserRequest} from "../../middlewares/auth";
 
 const User = require('../../users/models/User');
 
@@ -18,7 +19,7 @@ export class SingupRequest implements IRequest {
     }
   }
 
-  handle(req: Request, res: Response, next: NextFunction): void {
+  handle(req: IUserRequest, res: Response, next: NextFunction): void {
     const body = req.body as SignupType;
 
     try {

@@ -1,10 +1,11 @@
 import {NextFunction, Request, Response} from "express";
+import {IUserRequest} from "../../middlewares/auth";
 
 const User = require('../../users/models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-export const signup = (req: Request, res: Response, next: NextFunction) => {
+export const signup = (req: IUserRequest, res: Response, next: NextFunction) => {
   try {
     const email = req.body.email;
     const password = req.body.password;
@@ -33,7 +34,7 @@ export const signup = (req: Request, res: Response, next: NextFunction) => {
   }
 }
 
-export const login = (req: Request, res: Response, next: NextFunction) => {
+export const login = (req: IUserRequest, res: Response, next: NextFunction) => {
   try {
     const email = req.body.email;
     const password = req.body.password;

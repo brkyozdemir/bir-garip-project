@@ -1,5 +1,6 @@
 import {NextFunction, Request, Response} from "express";
+import {IUserRequest} from "../../middlewares/auth";
 
 export interface IRequest {
-  handle(req: Request, res: Response, next: NextFunction): void;
+  handle(req: IUserRequest, res: Response, next: NextFunction): void;
 }
