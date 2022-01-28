@@ -4,7 +4,7 @@ import {IUserRequest} from "../../middlewares/auth";
 const Book = require('../models/book');
 
 export const BookController = {
-  getBooks: async (req: IUserRequest, res: Response, next: NextFunction) => {
+  getBooks: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const books = await Book.find();
       res.json({ books });
@@ -13,7 +13,7 @@ export const BookController = {
       next(error);
     }
   },
-  getBookById: async (req: IUserRequest, res: Response, next: NextFunction) => {
+  getBookById: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const id = req.params.id;
       const book = await Book.findById(id);
@@ -23,7 +23,7 @@ export const BookController = {
       next(error);
     }
   },
-  createBook: async (req: IUserRequest, res: Response, next: NextFunction) => {
+  createBook: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { name, summary, author, pages } = req.body;
       const book = new Book({

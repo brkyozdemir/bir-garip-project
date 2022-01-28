@@ -1,8 +1,7 @@
-import {IRequest} from "../../core/interfaces/request";
 import {NextFunction, Request, Response} from "express";
 import {IUserRequest} from "../../middlewares/auth";
 
-const User = require('../../users/models/User');
+import {UserModel} from '../../users/models/User';
 
 type SignupType = {
   email: string
@@ -10,31 +9,29 @@ type SignupType = {
   username: string
 }
 
-export class SingupRequest implements IRequest {
-  private static checkPassword(password: string, res: Response) {
-    if (password === null || password === undefined) {
-      return res.status(400).json({
-        _message: 'Password is required'
-      });
-    }
+function checkPassword(password: string, res: Response) {
+  if (password === null || password === undefined) {
+    return res.status(400).json({
+      _message: 'Password is required'
+    });
   }
+}
 
-  handle(req: IUserRequest, res: Response, next: NextFunction): void {
-    const body = req.body as SignupType;
+export function handle(req: Request, res: Response, next: NextFunction): void {
+  const body = req.body as SignupType;
 
-    try {
-      SingupRequest.checkPassword(body.password, res);
-      User.findOne({email: body.email})
-        .then((user: any) => {
-          if (user) {
-            return res.status(400).json({
-              message: 'User exists'
-            });
-          }
-        });
-      next();
-    } catch (err) {
-      next(err)
-    }
+  try {
+    checkPassword(body.password, res);
+    UserModel.findOne({email: body.email})
+      .then((user: any) => {
+        if (user) {
+          return res.status(218).json({
+            message: 'User exists'
+          });
+        }
+      });
+    next();
+  } catch (err) {
+    next(err)
   }
 }

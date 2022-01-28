@@ -1,11 +1,11 @@
 import {NextFunction, Request, Response} from "express";
 import {IUserRequest} from "../../middlewares/auth";
 
-const User = require('../../users/models/User');
+import {UserModel} from '../../users/models/User';
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-export const signup = (req: IUserRequest, res: Response, next: NextFunction) => {
+export const signup = (req: Request, res: Response, next: NextFunction) => {
   try {
     const email = req.body.email;
     const password = req.body.password;
@@ -13,7 +13,7 @@ export const signup = (req: IUserRequest, res: Response, next: NextFunction) => 
 
     bcrypt.hash(password, 12)
       .then((hashedPassword: string) => {
-        const user = new User({
+        const user = new UserModel({
           email: email,
           username: username,
           password: hashedPassword
@@ -34,12 +34,12 @@ export const signup = (req: IUserRequest, res: Response, next: NextFunction) => 
   }
 }
 
-export const login = (req: IUserRequest, res: Response, next: NextFunction) => {
+export const login = (req: Request, res: Response, next: NextFunction) => {
   try {
     const email = req.body.email;
     const password = req.body.password;
 
-    User.findOne({email: email}).select('password')
+    UserModel.findOne({email: email}).select('password')
       .then((user: any) => {
         if (!user) {
           return res.status(400).json({
